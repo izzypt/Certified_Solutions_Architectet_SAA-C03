@@ -119,7 +119,7 @@ Edge Locations are used primarily by services like Amazon CloudFront, AWS WAF, S
 
 - Improve global performance and resilience
 
-### IAM (Identity and access management) & AWS CLI
+# 6 -  IAM (Identity and access management) & AWS CLI
 
 It's a global service.
 
