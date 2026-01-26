@@ -140,3 +140,19 @@ By creating groups we can manage permissions
 - Users or Groups can be assigned JSON documents called policies, which describe what a user/group is allowed to do.
 - Best practice is to follow the least privileged principle, which basically tells you to not give more permission than what the user needs.
 - Users with wrong permissions might accidently cost you a lot of money...
+
+### IAM : policies
+
+***In-line policy*** : a policty that is only attached to a user.
+
+***Policy structure***: 
+
+- version
+- id (optional)
+- statement : one or more individual statements (required)
+  - SID (statement identifier - optional)
+  - **Effect** : wether the statement allows or denies the access (Allow, Deny)
+  - **Principal** : which account/user/role the policy is applied to ( the WHO - who's the target of the policy)
+  - **Action** : list of actions this policy allows or denies (the WHAT - what is allowed or denied)
+  - **Resource** : list of resources to which the actions will be applied to.
+  - Condition : conditions for when this policy is in effect (optional)
