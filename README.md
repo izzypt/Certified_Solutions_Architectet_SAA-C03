@@ -68,30 +68,69 @@ An AWS region is a cluster of data centers
 
 Most AWS services are region-scoped.
 
-### how to choose an AWS Region ?
+### How to choose an AWS Region
 
- If you need to launch a new app, where to do it ? Take into account:
+When launching a new application, selecting the right AWS Region is a key architectural decision. Consider the following factors:
 
- - Compliance (data governance and legal requirements: f.example: data must never leave a region without explicit permission)
+### Compliance & data residency
+Data governance, legal, and regulatory requirements may dictate where data can be stored and processed.
+Example: sensitive data must not leave a specific region without explicit authorization.
 
- - Proximity to customers : reduced latency
+Proximity to customers
+ - Choosing a region close to your users reduces network latency and improves application performance.
 
- - Available services within a Region: new services and new features aren't available in every Region.
+Service availability
+ - Not all AWS services, features, or instance types are available in every region. New services are often released in a subset of regions first.
 
- - Pricing: prices varies from region to region and is transparent in the service pricing page.
+Pricing
+ - AWS pricing varies by region. Costs are transparent and published on each service’s pricing page, so regional cost differences should be factored into your decision.
 
+### AWS Availability Zones (AZs)
 
-### AWS Availability Zones
+Each AWS Region consists of multiple Availability Zones (typically 3 to 6).
 
-Each region has many availability zones ( min : 3, max : 6)
+An Availability Zone is one or more physically separate data centers with:
 
-Each Availability Zone (AZ) is one or more discrete data center with redudant power, networking and connectivity.
+- Independent power
 
-They are separated from each other, so that they're isolated from disasters.
+- Independent networking
 
+- Redundant connectivity
 
-### AWS Point of Presence (Edge Locations)
+Availability Zones are isolated from one another to reduce the impact of failures, natural disasters, or other incidents, while still being close enough to provide low-latency connectivity.
 
-- Amazon has 400+ points of presence (400+ Edge locations & 10+ Regional Caches) in 90+ cities across 40+ countries.
+Designing applications across multiple AZs increases high availability and fault tolerance.
 
-- 
+### AWS Points of Presence (Edge Locations)
+
+AWS operates 400+ Points of Presence, including:
+
+- 400+ Edge Locations
+
+- 10+ Regional Edge Caches
+
+These are distributed across 90+ cities in 40+ countries.
+
+Edge Locations are used primarily by services like Amazon CloudFront, AWS WAF, Shield, and Route 53 to:
+
+- Cache content closer to end users
+
+- Reduce latency
+
+- Improve global performance and resilience
+
+### IAM (Identity and access management) & AWS CLI
+
+It's a global service.
+
+We can manage users, create them and assign them to groups.
+
+The root account is used to refer to the account you initial create, shouldn't be used or shared.
+
+You should create user.. people within your organization which can be grouped.
+
+Groups can only contain users, not other groups. 
+
+A user can belong to multiple groups.
+
+By creating groups we can manage permissions  
