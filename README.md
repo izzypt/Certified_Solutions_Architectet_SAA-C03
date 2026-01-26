@@ -1,6 +1,4 @@
 # Certified_Solutions_Architectet_SAA-C03
-All I need to know about Solution Architect AWS associate certificate 
-Will cover over 30 AWS services
 
 # 1 - What's AWS
 
