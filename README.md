@@ -134,3 +134,9 @@ Groups can only contain users, not other groups.
 A user can belong to multiple groups.
 
 By creating groups we can manage permissions  
+
+### IAM : permissions
+
+- Users or Groups can be assigned JSON documents called policies, which describe what a user/group is allowed to do.
+- Best practice is to follow the least privileged principle, which basically tells you to not give more permission than what the user needs.
+- Users with wrong permissions might accidently cost you a lot of money...
