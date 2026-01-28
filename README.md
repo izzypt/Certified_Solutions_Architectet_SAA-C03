@@ -156,3 +156,47 @@ By creating groups we can manage permissions
   - **Action** : list of actions this policy allows or denies (the WHAT - what is allowed or denied)
   - **Resource** : list of resources to which the actions will be applied to.
   - Condition : conditions for when this policy is in effect (optional)
+
+### IAM - MFA Overview
+
+Password Policy:
+
+- strong passwords: You can setup a password policy
+ - Set a minimum password length
+ - Require specific character types
+ - Allow IAM users to change their own password
+ - Require users to change their password after some time (pw expiration)
+ - Prevent password re-use
+
+
+### MFA - Multi Factor Authentication
+
+It's a must on AWS:
+
+- Users have access to your account and can possibly change configurations or delete resource in your AWS account.
+- You want to protect your root Account and IAM users:
+ - MFA = password you know + security device you own
+
+MFA app Options:
+- Google Authenticator
+- Authy
+
+The above are VIRTUAL MFA device.
+
+You can also use HARDWARE optionsm like hardware Key Fovv MFA Device
+
+
+#### Defining a password policy :
+
+IAM > Account Settings > Edit password policy
+
+# How can user access AWS
+
+3 options:
+- AWS Management Console (password + MFA)
+- AWS Command Line (CLI; protected by access keys)
+- AWS Software Developer Kit (SDK) - for code; protected by access keys
+
+***Acess Keys*** ARE generated through the AWS console !
+Users manage their own access key
+***Acess kEYS*** ARE SECRET, just like a password. DON'T share them.
