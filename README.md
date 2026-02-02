@@ -217,3 +217,9 @@ Users manage their own access key
 - Enables you to access and manage AWS services programmatically
 - Embedded within your application
 - Support JavaScript, Python, PHP, Ruby, Java, GO, Node.JS, C++....
+
+# AWS CLI Setup
+
+ 1 - Search on google "aws CLI install windows" - aws documentation should appear
+ 2 - Download the Windows installer
+ 3 - Run the Installer
