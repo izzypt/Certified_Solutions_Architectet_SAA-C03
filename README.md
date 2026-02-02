@@ -202,4 +202,4 @@ Users manage their own access key
 ***Acess kEYS*** ARE SECRET, just like a password. DON'T share them.
 
 - Access Key ID ~= username
--Secret Access Key ~= password
+- Secret Access Key ~= password
