@@ -203,3 +203,17 @@ Users manage their own access key
 
 - Access Key ID ~= username
 - Secret Access Key ~= password
+
+### About the AWS CLI
+
+- A tool that enables you to interact with AWS services using commands in your command-line shell
+- Direct access to the public APIs of AWS services
+- You can develop scripts to manage your resources
+
+### About the AWS SDK
+
+- AWS Software Development Kit
+- Language-specific APIs
+- Enables you to access and manage AWS services programmatically
+- Embedded within your application
+- Support JavaScript, Python, PHP, Ruby, Java, GO, Node.JS, C++....
