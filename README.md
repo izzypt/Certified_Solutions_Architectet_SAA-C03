@@ -210,7 +210,7 @@ Users manage their own access key
 - Direct access to the public APIs of AWS services
 - You can develop scripts to manage your resources
 
-### About the AWS SDK
+### About the AWS SDK (Software Development Kit)
 
 - AWS Software Development Kit
 - Language-specific APIs
