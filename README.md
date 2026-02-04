@@ -261,3 +261,5 @@ No passwords. No long-lived access keys.
  
 - IAM Access Advisor (user-level)
   - Access advisor shows the service permissions granted to a usar and when those services were last accessed.
+
+# 7 -  EC2 Fundamentals
