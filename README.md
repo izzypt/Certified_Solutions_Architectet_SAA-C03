@@ -223,3 +223,10 @@ Users manage their own access key
  1 - Search on google "aws CLI install windows" - aws documentation should appear
  2 - Download the Windows installer
  3 - Run the Installer
+
+
+# Creating AWS ACCESS key
+
+- IAM -> Users -> simao_admin (the user you want to create a key for) -> Create access key
+- <img width="786" height="479" alt="image" src="https://github.com/user-attachments/assets/c3b49d05-0c1f-4736-a831-85c65e379ff0" />
+- from the terminal run aws configure
