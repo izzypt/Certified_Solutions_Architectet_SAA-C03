@@ -237,3 +237,27 @@ Users manage their own access key
 - Some AWS services will need to perform actions on your behalf
 - To do so, we will assign permissions to AWS services with IAM roles
 - We need to allow that service to perform certain actions like we do with some user(s)
+
+***Common roles:***
+- EC2 Instance Roles
+- Lambda functionn roles
+- Roles for CloudFormation
+
+### Iam Roles Hands On
+An IAM Role is an identity in AWS that does not belong to a person.
+Instead of being “logged into,” it is assumed by something (or someone) temporarily.
+
+Think of it like:
+
+```🎟️ A temporary access badge that gives specific permissions for a specific job. ```
+
+No passwords. No long-lived access keys.
+
+
+### Iam Security tools
+
+- IAM Credentials Report (account-level)
+  - A report that lists all your account's users and the status of their various credentials
+ 
+- IAM Access Advisor (user-level)
+  - Access advisor shows the service permissions granted to a usar and when those services were last accessed.
