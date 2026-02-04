@@ -263,3 +263,35 @@ No passwords. No long-lived access keys.
   - Access advisor shows the service permissions granted to a usar and when those services were last accessed.
 
 # 7 -  EC2 Fundamentals
+
+- EC2 is one of the most popular of AWS offering
+- EC2 = Elastic Compute Cloud = Infrastructure as a service
+- It mainly consists on the capability of
+  - Renting a virtual machine (EC2) 
+  - Storing data on virtual drives (EBS)
+  - Distributing load across machine (ELB)
+  - Scaling the services usin an auto-sclaing (ASG)
+ 
+ Knowing EC2 is fundamental to understand how the Cloud works
+
+
+ ### EC2 sizing & configuration options
+
+ - Operating System:
+   - Windows
+   - Linux
+   - Mac OS
+- How much compute power & cores (CPU)
+- How much random-access memory (RAM)
+- How much storage space:
+  - Network-attached (EBS & EFS)
+  - Hardware (EC2 Instance Store)
+- Network card: speed of the card, Public IP address
+- Firewall rules: security group
+- Bootstrap script (configure at first launch): EC2 User Data
+
+### EC2 User Data
+
+- It is possible to bottstrap our instances using an ***EC2 User data script***.
+- ***bootstrapping*** means launching commands when a machine starts.
+- The script is ***only run once*** at the instance ***first start***
