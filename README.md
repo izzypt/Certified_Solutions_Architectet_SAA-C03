@@ -190,7 +190,7 @@ You can also use HARDWARE optionsm like hardware Key Fovv MFA Device
 
 IAM > Account Settings > Edit password policy
 
-# How can user access AWS
+### How can user access AWS
 
 3 options:
 - AWS Management Console (password + MFA)
@@ -218,15 +218,22 @@ Users manage their own access key
 - Embedded within your application
 - Support JavaScript, Python, PHP, Ruby, Java, GO, Node.JS, C++....
 
-# AWS CLI Setup
+### AWS CLI Setup
 
  1 - Search on google "aws CLI install windows" - aws documentation should appear
  2 - Download the Windows installer
  3 - Run the Installer
 
 
-# Creating AWS ACCESS key
+### Creating AWS ACCESS key
 
 - IAM -> Users -> simao_admin (the user you want to create a key for) -> Create access key
 - <img width="786" height="479" alt="image" src="https://github.com/user-attachments/assets/c3b49d05-0c1f-4736-a831-85c65e379ff0" />
 - from the terminal run aws configure
+
+
+### IAM Roles for Services.
+
+- Some AWS services will need to perform actions on your behalf
+- To do so, we will assign permissions to AWS services with IAM roles
+- We need to allow that service to perform certain actions like we do with some user(s)
