@@ -295,3 +295,16 @@ No passwords. No long-lived access keys.
 - It is possible to bottstrap our instances using an ***EC2 User data script***.
 - ***bootstrapping*** means launching commands when a machine starts.
 - The script is ***only run once*** at the instance ***first start***
+- EC2 user data is used to automate boot tasks such as :
+  - Installing updates
+  - Installing software
+  - Downloading common files from the internet
+  - Anything you can think of
+- The ***EC2 User Data Script*** runs with the root user
+
+### Hands-On : Launching an EC2 Instance running Linux
+
+We'll be launching our first virutal server using the AWS console.
+We'll get a first high-level approach to the various parameters.
+We'll see that our web server is launched using EC2 user data.
+And learn how to start / stop / terminate our instance.
