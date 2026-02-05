@@ -325,21 +325,23 @@ You can use different types of EC2 instanceshat are optimized for different  use
     - High performance computing (HPC)
     - Scientific modeling & machine learning 
 
-- ***Memory Optimized***
+- ***Memory Optimized (r5,r5a, r5b, r6, r6a, r6b)***
   - Fast performance for workloads that process large data sets in memory
   - Use cases:
     - high performance , relational/non-relational databases
-    - Distributed web scale cache stores  
+    - Distributed web scale cache stores
+    - In.memory databases optimized for BI (business Intelligence)
+    - Applications performing real-time processing of big unstructured data
 
 - ***Accelerated Computing***
-  -
-
 - ***Instance Features***
-  -
-
-- Measuring Instance Performance
-    -
-
+- ***Storage Optimized***
+  - Great for storage-intensive tasks that require high, sequential read and write access to large data sets on local storage
+  - Use cases:
+    - High frequency online transaction processing (OLTP) systems
+    - Relational & NoSQL databases
+    - Cache for in-memory databases (for example, Redis) 
+  
   AWS has the following naming convention :
   ```m5.2xlarge```
 
