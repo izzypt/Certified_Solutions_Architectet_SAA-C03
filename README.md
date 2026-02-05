@@ -350,3 +350,11 @@ You can use different types of EC2 instanceshat are optimized for different  use
   - m : instance class
   - 5 : generation/version (AWS improves them over time)
   - 2xlarge : size within the instance class
+
+### Security Groups & Classic Ports Overview
+
+- Security Groups are the fundamental of network security in AWS
+- They control how traffic is allowed into or out of our EC2 instance.
+
+- Security groups only contain allow rules.
+- Security groups rules can reference by IP or by security group
