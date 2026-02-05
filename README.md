@@ -335,12 +335,14 @@ You can use different types of EC2 instanceshat are optimized for different  use
 
 - ***Accelerated Computing***
 - ***Instance Features***
-- ***Storage Optimized***
+- ***Storage Optimized (D2, D3, D3en, H1)***
   - Great for storage-intensive tasks that require high, sequential read and write access to large data sets on local storage
   - Use cases:
     - High frequency online transaction processing (OLTP) systems
     - Relational & NoSQL databases
-    - Cache for in-memory databases (for example, Redis) 
+    - Cache for in-memory databases (for example, Redis)
+    - Data warehousing applications
+    - Distributed file systems
   
   AWS has the following naming convention :
   ```m5.2xlarge```
