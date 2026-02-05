@@ -358,3 +358,9 @@ You can use different types of EC2 instanceshat are optimized for different  use
 
 - Security groups only contain allow rules.
 - Security groups rules can reference by IP or by security group
+
+Securty groups are acting as a "firewall" on EC2 instances
+
+They regulate:
+- Access to Ports
+- Authorized IP ranges - IPv4 and IPv6
