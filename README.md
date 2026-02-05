@@ -308,3 +308,41 @@ We'll be launching our first virutal server using the AWS console.
 We'll get a first high-level approach to the various parameters.
 We'll see that our web server is launched using EC2 user data.
 And learn how to start / stop / terminate our instance.
+
+### EC2 Instance Types - Overview
+
+You can use different types of EC2 instanceshat are optimized for different  use cases (https://aws.amazon.com/ec2/instance-types/)
+
+- ***General Purpose***
+  - Great for a diversity of workloads such as web servers or code repositories
+  - Balance between compute, memory, networking
+ 
+- ***Compute Optimized (c5 , c6 c6g, c6gn)***
+  - Great for compute-intensive tasks that require high performance processors:
+    - batch processing workloads
+    - Media transcoding
+    - High performance web servers
+    - High performance computing (HPC)
+    - Scientific modeling & machine learning 
+
+- ***Memory Optimized***
+  - Fast performance for workloads that process large data sets in memory
+  - Use cases:
+    - high performance , relational/non-relational databases
+    - Distributed web scale cache stores  
+
+- ***Accelerated Computing***
+  -
+
+- ***Instance Features***
+  -
+
+- Measuring Instance Performance
+    -
+
+  AWS has the following naming convention :
+  ```m5.2xlarge```
+
+  - m : instance class
+  - 5 : generation/version (AWS improves them over time)
+  - 2xlarge : size within the instance class
