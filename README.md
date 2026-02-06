@@ -370,4 +370,61 @@ They regulate:
 <img width="1897" height="269" alt="image" src="https://github.com/user-attachments/assets/6bf2b7e5-bb1d-443b-be03-f9ffe6e31667" />
 
 <img width="957" height="471" alt="image" src="https://github.com/user-attachments/assets/c62d9024-125c-42a4-aaef-5504c180febc" />
-<img width="957" height="471" alt="image" src="https://github.com/user-attachments/assets/c62d9024-125c-42a4-aaef-5504c180febc" />
+
+
+### Security Grups - Good to know
+
+- Can be attached to multiple instances
+- Locked down to a regen /VPC combination
+- Does live "outside" the EC2 - if traffic is blocked the EC2 instance won't see it
+- ***It's good to maintain one separate security group for SSH access***
+- If your application is not accessible (time out), then it's security group issue
+- If your group application gives a "connection refused" error, then it's an application error or it's not launched
+- All inbound traffic is blocked by default
+- All outbound traggic is authorised by default
+
+### Referencing other security groups
+
+<img width="854" height="454" alt="image" src="https://github.com/user-attachments/assets/571293bd-9784-4aaf-90a3-7218c19cf7e6" />
+
+This diagram illustrates a fundamental concept in AWS networking: **Security Group Referencing** (also known as "chaining").
+
+Instead of opening a port to a specific IP address or a wide range (like `0.0.0.0/0`), you tell a Security Group to allow traffic from **any resource that has a specific Security Group ID attached to it.**
+
+---
+
+In the diagram, **Security Group 1** acts as a gatekeeper for the EC2 instance on the left.
+
+* It has rules that say: "I trust **SG 1** and **SG 2**."
+* Because the top two instances have those groups attached, their traffic (green arrows) is allowed through on Port 123.
+* The bottom instance has **SG 3**, which isn't on the "VIP list," so its traffic (red arrow) is blocked.
+
+---
+
+## Key Advantages
+
+### 1. Dynamic Scalability (Auto-Scaling Friendly)
+
+In a cloud environment, IP addresses are often temporary. If you scale from 2 web servers to 200, you don't want to manually update your database's security group with 198 new IP addresses.
+
+* **With Referencing:** As soon as a new instance launches with the "Web-Server-SG," it automatically has permission to talk to the database. No manual updates required.
+
+### 2. Reduced Maintenance & "Blast Radius"
+
+If you rely on IP addresses, you end up with a "wall of text" in your firewall rules that is hard to audit.
+
+* **With Referencing:** You only need one rule per tier (e.g., "Allow App Tier to talk to DB Tier"). This makes your security posture much easier to read and less prone to human error.
+
+### 3. Security Across Subnets
+
+IP-based rules often force you to open up entire CIDR blocks (e.g., `10.0.1.0/24`). This is risky because *any* resource in that subnet—even one that shouldn't have access—could potentially reach your target.
+
+* **With Referencing:** Traffic is restricted by **identity**, not location. Only instances with the specific "key" (the SG ID) can enter, regardless of which subnet they live in.
+
+### 4. Self-Referencing for Clusters
+
+Notice in the diagram that **Security Group 1** is referencing **itself**. This is a common pattern for clusters (like ElasticSearch or MongoDB). It allows all nodes within that same group to communicate with each other for heartbeats or data replication without needing to know each other's individual IPs.
+
+---
+
+> **Pro Tip:** When you use referencing, the traffic is filtered at the ENI (Elastic Network Interface) level, meaning the blocked traffic (like that from SG 3) never even touches your instance's OS, saving CPU cycles and increasing security.
