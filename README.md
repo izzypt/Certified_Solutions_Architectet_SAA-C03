@@ -1,4 +1,4 @@
-# Certified_Solutions_Architectet_SAA-C03
+ # Certified_Solutions_Architectet_SAA-C03
 
 # 1 - What's AWS
 
@@ -364,3 +364,10 @@ Securty groups are acting as a "firewall" on EC2 instances
 They regulate:
 - Access to Ports
 - Authorized IP ranges - IPv4 and IPv6
+- Control of Inbound Network (from other to the instance)
+- Control of Outbound Network (from the instance to other)
+
+<img width="1897" height="269" alt="image" src="https://github.com/user-attachments/assets/6bf2b7e5-bb1d-443b-be03-f9ffe6e31667" />
+
+<img width="957" height="471" alt="image" src="https://github.com/user-attachments/assets/c62d9024-125c-42a4-aaef-5504c180febc" />
+<img width="957" height="471" alt="image" src="https://github.com/user-attachments/assets/c62d9024-125c-42a4-aaef-5504c180febc" />
