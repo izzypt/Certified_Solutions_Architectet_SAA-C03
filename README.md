@@ -522,3 +522,57 @@ Imagine you are staying at a hotel:
 * **Reserved:** You sign a contract promising the hotel you will stay in that room for the next year. Because they are guaranteed your business, they cut your nightly rate in half.
 
 **Would you like me to help you calculate which option makes more sense for a specific project you have in mind?**
+
+### EC2 Saving Plans
+
+If **Reserved Instances** are a rigid contract, **Savings Plans** are the modern, flexible upgrade.
+
+AWS introduced Savings Plans because customers found Reserved Instances too restrictive—if you committed to a specific "M5" instance but later realized your code ran better on a "C6," you were often stuck with the bill for the wrong hardware.
+
+---
+
+## What is a Savings Plan?
+
+A Savings Plan is a flexible pricing model that offers the same deep discounts as Reserved Instances (up to 72%), but instead of committing to a **specific instance type**, you commit to a **consistent amount of hourly spend** (e.g., "$10/hour") for a 1 or 3-year term.
+
+### How it works:
+
+* **The Commitment:** You promise to spend, for example, $5.00 every hour on AWS compute services.
+* **The Discount:** Anything you use up to that $5.00 is billed at a heavily discounted rate.
+* **The Overflow:** If you use $7.00 worth of compute in an hour, the first $5.00 is covered by the plan, and the remaining $2.00 is billed at the standard (higher) On-Demand rate.
+
+---
+
+## Types of Savings Plans
+
+| Plan Type | What it covers | Flexibility Level |
+| --- | --- | --- |
+| **EC2 Instance Savings Plan** | Only specific instance families (e.g., all M5s) in a specific region. | **Medium:** You can switch sizes (M5.large to M5.xlarge) or OS, but must stay in the M5 family. |
+| **Compute Savings Plan** | **Any** EC2 instance, plus AWS Lambda and AWS Fargate. | **Highest:** You can switch regions, instance families, OS, and even move from EC2 to Fargate (Serverless). |
+| **SageMaker Savings Plan** | Specifically for Amazon SageMaker (Machine Learning) usage. | **Specific:** Only applies to SageMaker costs. |
+
+---
+
+## Why choose Savings Plans over Reserved Instances?
+
+Most users are moving toward Savings Plans because they handle the "real world" better:
+
+1. **Hardware Upgrades:** If AWS releases a newer, faster, cheaper instance type (e.g., moving from  to ), a **Compute Savings Plan** automatically applies its discount to the new hardware.
+2. **Less Management:** You don't have to manage "floating" RI credits or perform manual exchanges.
+3. **Modern Architecture:** If you decide to migrate your app from a virtual server (EC2) to a container (Fargate) or a function (Lambda), the **Compute Savings Plan** follows you.
+
+> **Note:** Just like Reserved Instances, these are **billing constructs**. Your servers don't reboot or change when you buy a plan; your bill just gets smaller.
+
+---
+
+### Comparison: RI vs. Savings Plan
+
+* **Reserved Instances:** Best if you want to "reserve" capacity (ensure a server is physically available for you in a specific data center) or if you use older, niche instance types.
+* **Savings Plans:** Best for almost everyone else because they offer the same discount with much less administrative headache.
+
+### EC2 Spot Instances
+
+- Can get discount of up to 90% compared to On-demand
+- Instance that you can "lose" at any point of time if your max price is less than the current spot price.
+- The MOST cost-efficient instances in AWS
+- Useful for workloads that are RESILIENT TO failure
