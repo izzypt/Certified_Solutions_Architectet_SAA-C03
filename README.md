@@ -428,3 +428,12 @@ Notice in the diagram that **Security Group 1** is referencing **itself**. This 
 ---
 
 > **Pro Tip:** When you use referencing, the traffic is filtered at the ENI (Elastic Network Interface) level, meaning the blocked traffic (like that from SG 3) never even touches your instance's OS, saving CPU cycles and increasing security.
+
+### Classic Ports to know
+
+- 22 -> SSH
+- 21 -> FTP
+- 22 -> SFTP
+- 80 -> HTTP
+- 443 -> HTTPS
+- 3389 -> RDP (Remote Desktop Protocol) - log in into a Windows Instnce
