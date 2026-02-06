@@ -437,3 +437,15 @@ Notice in the diagram that **Security Group 1** is referencing **itself**. This 
 - 80 -> HTTP
 - 443 -> HTTPS
 - 3389 -> RDP (Remote Desktop Protocol) - log in into a Windows Instnce
+
+
+### EC2 Instances Purchasing Options
+
+- On-Demand Instance : short workload, predictable pricing, pay by second
+- Server (1 & 3 years) 
+  - Reserved Instances - long workloads
+  - Convertible Reserved Instances - long workloads with flexible instances
+- Saving Plans (1 & 3 years) - commitment to an amount of usage, long workload
+- Spot instances - short workloads, cheap, can lose instances (less reliable)
+- Dedicated hosts - book an entire physical server, control instance placement
+- Dedicated instances - no other customers will share your hardware
