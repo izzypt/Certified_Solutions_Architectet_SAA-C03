@@ -584,3 +584,31 @@ Most users are moving toward Savings Plans because they handle the "real world" 
 
 
 NOT SUITABLE for critical jobs or databases.
+
+### EC2 Dedicated Hosts
+
+- A physical server with EC2 instance capacity fully dedicated to your use case.
+- Allows your address compliance requirements and use your existing server-bound software licenses (per-socker, per-core, pe --VM Software licenses)
+- Purchasing Options:
+  -  On-Demand - pay per secnd active Dedicated Host;
+  -  Reserved - 1 or 3 years (No Upfront, Partial, All Upfront)
+ 
+- The ***most expensive*** option
+- Useful for software that have complicated licensing model (BYOLD - Bring Your Own License)
+- Or for companies that have strong regulatory or compliance needs
+
+
+### EC2 Capacity Reservations
+
+- Reserve On-Demand instances capacity in a specific AZ for any duration
+- You always have access to EC2 capacity when you need it
+- No time commitment (create/cancel anytime), no billing discounts
+- Combine with Regional Reserved Instances and Saving Plans to benefit from billing discounts
+- You're charget at On-Demand rate wether you run instances or not
+- Suitable for short-term, uninterrupted workloads that needs to be in a specific AZ
+
+
+<img width="959" height="485" alt="image" src="https://github.com/user-attachments/assets/e22d065b-bfdb-44ac-ab1c-ad275f2431d2" />
+
+<img width="898" height="454" alt="image" src="https://github.com/user-attachments/assets/37aebc09-e176-4d35-b361-a7a64fbb5966" />
+
