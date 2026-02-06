@@ -449,3 +449,76 @@ Notice in the diagram that **Security Group 1** is referencing **itself**. This 
 - Spot instances - short workloads, cheap, can lose instances (less reliable)
 - Dedicated hosts - book an entire physical server, control instance placement
 - Dedicated instances - no other customers will share your hardware
+- Capacity Instances - no other customers will share your hardware
+- Capacity Rsercations - reserve capacity in a specific AZ for any duration
+
+### EC2 on Demanad
+
+- Pay what you use:
+  - Linux or Windows - billing per second, after the first minute
+  - All other operating systems - billing per hour
+- Has the highest cost but no upfront payment
+- No long-term commitment
+
+- Recommended for short-tem and un-interrupted workloads, where you can't predict how the application will behave 
+
+### EC2 Reserved Instances
+- up to 72% discount compared to On-demand (AWS MAY CHANGES DISCOUNTS OVER TIME , not fixed...)
+- You reserve a specific instance attributes (Instance Type, Region, Tenancy, OS)
+- Reservation Period - 1 year (+discount) or 3 years (+++discount)
+- Payment Options - No Upfront (+), Partial Upfront (++), All Upfront (+++)
+
+
+Whether you choose On-Demand or Reserved, you are getting the exact same virtual server (the same CPU, RAM, and performance).
+
+The difference lies entirely in the **billing model** and the **level of commitment** you make to AWS. Think of it like a car: On-Demand is like a short-term rental or a ride-share, while Reserved is more like a long-term lease.
+
+---
+
+## 1. EC2 On-Demand
+
+This is the most flexible way to use AWS. You pay for compute capacity by the second or the hour (depending on the OS) with no long-term commitment.
+
+* **How it works:** You start an instance, use it, and then terminate it. You only pay for what you used.
+* **Best for:** * Short-term, unpredictable workloads.
+* Testing and prototyping.
+* Applications that cannot be interrupted but don't run 24/7.
+
+
+* **Cost:** This is the most expensive "per hour" rate because you are paying for the luxury of flexibility.
+
+---
+
+## 2. EC2 Reserved Instances (RIs)
+
+This isn't actually an "instance" you launch; it’s a **billing discount** applied to an On-Demand instance in your account.
+
+* **How it works:** You commit to using a specific instance type in a specific region for a term of **1 or 3 years**.
+* **The Discount:** In exchange for this commitment, AWS gives you a massive discount (up to **72%**) compared to On-Demand pricing.
+* **Payment Options:** You can pay **All Upfront**, **Partial Upfront**, or **No Upfront** (monthly).
+* **Best for:** * Applications with "steady-state" usage (servers that stay on 24/7).
+* Budgeting for long-term projects where you know exactly what hardware you need.
+
+
+
+---
+
+## Key Differences at a Glance
+
+| Feature | On-Demand | Reserved Instances |
+| --- | --- | --- |
+| **Commitment** | None (Pay-as-you-go) | 1 or 3 Years |
+| **Cost** | Highest hourly rate | Significant discount (up to 72%) |
+| **Flexibility** | High (Spin up/down anytime) | Low (Committed to the term) |
+| **Ideal Use Case** | Spiky, unpredictable traffic | Predictable, constant traffic |
+
+---
+
+### A Simple Analogy
+
+Imagine you are staying at a hotel:
+
+* **On-Demand:** You walk in off the street and ask for a room for one night. It’s expensive, but you can leave whenever you want.
+* **Reserved:** You sign a contract promising the hotel you will stay in that room for the next year. Because they are guaranteed your business, they cut your nightly rate in half.
+
+**Would you like me to help you calculate which option makes more sense for a specific project you have in mind?**
