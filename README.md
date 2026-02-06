@@ -576,3 +576,11 @@ Most users are moving toward Savings Plans because they handle the "real world" 
 - Instance that you can "lose" at any point of time if your max price is less than the current spot price.
 - The MOST cost-efficient instances in AWS
 - Useful for workloads that are RESILIENT TO failure
+ - Batch jobs
+ - Data analysis
+ - Image processing
+ - Any distribued workloads
+ - Workloads with a flexible start and end time
+
+
+NOT SUITABLE for critical jobs or databases.
