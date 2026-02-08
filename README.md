@@ -612,3 +612,67 @@ NOT SUITABLE for critical jobs or databases.
 
 <img width="898" height="454" alt="image" src="https://github.com/user-attachments/assets/37aebc09-e176-4d35-b361-a7a64fbb5966" />
 
+### Spot Instances & Spot Fleet
+
+- Can get a discount of up to 90% compared to On-demand
+- Define max spot price and get the instance while current spot price < max
+  - The hourly spot price varies based on offer and capacity
+  - If the current spot price > your max price you can choose to stop or terminate your instance with a 2 minutes grace period
+- Other stategy : ***Spot Block***
+  -  "block" spot instance during a specified time grame (1 to 6 hours) without interruptions
+  -  in rare situations the intance may be reclaimed
+
+<img width="1480" height="894" alt="image" src="https://github.com/user-attachments/assets/07bf5f9c-7baf-4a49-8c03-8c5aa7210323" />
+
+- Used for batch jobs, data analysis or workloads that are resilient to failure
+- Not great for critical jobs or databases
+
+- A spot price is the current market value of an asset, commodity, or currency for immediate purchase, payment, and delivery.
+- It represents the "on-the-spot" cash price determined by real-time supply and demand, distinct from futures prices that set delivery for a future date.
+
+A Spot Instance request can be in one of the following states:
+
+- open – The request is waiting to be fulfilled.
+
+- active – The request is fulfilled and has an associated Spot Instance.
+
+- failed – The request has one or more bad parameters.
+
+- closed – The Spot Instance was interrupted or terminated.
+
+- disabled – You stopped the Spot Instance.
+
+- cancelled – You canceled the request, or the request expired.
+
+The following illustration represents the transitions between the request states. Notice that the transitions depend on the request type (one-time or persistent).
+
+<img width="778" height="840" alt="image" src="https://github.com/user-attachments/assets/c26f8a22-0bf8-495b-8733-3c5d075632c4" />
+
+
+Spot Instance request states.
+
+- A one-time Spot Instance request remains active until Amazon EC2 launches the Spot Instance, the request expires, or you cancel the request. If capacity is not available, your Spot Instance is terminated and the Spot Instance request is closed.
+
+> A persistent Spot Instance request remains active until it expires or you cancel it, even if the request is fulfilled. If capacity is not available, your Spot Instance is interrupted. After your instance is interrupted, when capacity becomes available again, the Spot Instance is started if stopped or resumed if hibernated. You can stop a Spot Instance and start it again if capacity is available. If the Spot Instance is terminated (irrespective of whether the Spot Instance is in a stopped or running state), the Spot Instance request is opened again and Amazon EC2 launches a new Spot Instance. For more information, see Stop a Spot Instance, Start a Spot Instance, and Terminate a Spot Instance.
+
+You can track the status of your Spot Instance requests, as well as the status of the Spot Instances launched, through the status. For more information, see Get the status of a Spot Instance request.
+
+### Spot Fleets
+
+A Spot Fleet is like a “pool manager” for EC2 instances. You tell it how many servers you want, what types are okay, and how much you’re willing to pay. It then automatically launches Spot Instances (and optional On-Demand ones) from the options you allowed.
+
+It keeps adding instances until it reaches your target capacity or max budget.
+
+You can tell it to pick the cheapest instances (lowestPrice) or spread them out for reliability (diversified).
+
+Basically, it helps run lots of servers cheaply and flexibly without you managing each one.
+
+- Spot Fleets = set of Spot Instances + (optional) On-Demand Instances
+- The Spot fleet will try to meet the target capacity with price constraints
+  - Define possible launch pools: instance type, OS , Availability Zone
+  - Can have multiple pools, so tart the the fleet can choose
+  - Splot fleet stops launching instances when reaching capacity or max cost.
+ 
+- Strategies to allocate Spot Instances:
+  - lowestPrice: from the pool with the lowest price ( cost optimization, short workload)
+  - diversified: distributed across all pools (great for availability, long workloads) 
