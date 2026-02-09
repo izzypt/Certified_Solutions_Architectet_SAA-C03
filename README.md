@@ -750,20 +750,20 @@ Placement Groups in AWS are a way to **control how EC2 instances are physically 
 Three types, one-liners each:
 
 * **Cluster** → instances are **packed close together** in the same AZ
-  ✅ ultra-low latency, high throughput (HPC, big data)
-  ❌ higher blast radius if hardware fails
+  - ✅ ultra-low latency, high throughput (HPC, big data)
+  - ❌ higher blast radius if hardware fails
 
 * **Spread** → instances are **kept on separate hardware**
-  ✅ maximum fault isolation (critical small workloads)
-  ❌ limited number of instances
-  ✅ Can span multiple AZs
-  ✅ Each instance is placed on distinct underlying hardware
-  ✅ Designed for maximum fault isolation
-  ❌ Limited to a small number of instances per AZ
+  - ✅ maximum fault isolation (critical small workloads)
+  - ❌ limited number of instances
+  - ✅ Can span multiple AZs
+  - ✅ Each instance is placed on distinct underlying hardware
+  - ✅ Designed for maximum fault isolation
+  - ❌ Limited to a small number of instances per AZ
 
 * **Partition** → instances are **grouped into partitions**, each on isolated hardware
-  ✅ balance between scale and fault isolation (Kafka, HDFS)
-  ✅ Instances are divided into partitions, and each partition is isolated from the others
+  - ✅ balance between scale and fault isolation (Kafka, HDFS)
+  - ✅ Instances are divided into partitions, and each partition is isolated from the others
   
 Think of it as telling AWS *“how close or how far apart should my EC2s live?”*
 Quick mental model:
@@ -828,3 +828,89 @@ Instances are divided into logical segments called "partitions." Each partition 
 **Scenario:** You are designing a system for a genomic research firm that needs to process massive datasets across 50 nodes with the lowest possible latency between them. Which placement group do you choose?
 
 **Answer:** **Cluster Placement Group.** Even though there are many nodes, the "lowest possible latency" requirement is the "Cluster" keyword.
+
+---
+
+## 🛠️ Key Attributes of an ENI
+
+An **ENI (Elastic Network Interface)** is a logical networking component in a VPC that represents a virtual network card. 
+
+Think of it as the "virtual NIC" you plug into your EC2 instance to give it a presence in the network.
+
+An **ENI (Elastic Network Interface)** is a **virtual network card** in AWS that you attach to EC2 instances.
+
+What it does:
+
+* Provides **network connectivity** to an instance inside a VPC
+* Has its own **private IP**, optional **public IP / Elastic IP**
+* Has **security groups** attached to it (not to the instance directly)
+* Can be **attached, detached, and moved** between EC2 instances
+
+What it’s used for:
+
+* **Multiple network interfaces** on one instance (multi-homed apps, firewalls)
+* **High availability / failover** (move the ENI to another instance)
+* **Traffic separation** (e.g. public vs private traffic)
+* **Stable IP address** that survives instance replacement
+
+Mental model:
+**EC2 = server**, **ENI = network card you can unplug and move** 🔌
+
+
+When you create an ENI, it includes:
+
+* A **Primary Private IPv4** address from the IPv4 address range of your VPC.
+* One or more **Secondary Private IPv4** addresses.
+* One **Elastic IP (IPv4)** per private IPv4 address (optional).
+* One **Public IPv4** address (optional).
+* One or more **Security Groups**.
+* A **MAC address**.
+
+---
+
+## 🚀 Why do we use ENIs? (Exam Use Cases)
+
+### 1. Management Networks
+
+You can create a dual-homed instance by attaching two ENIs from different subnets.
+
+* **Use Case:** One ENI for public-facing traffic and a second "management" ENI in a private subnet for logging or administrative access.
+
+### 2. Low-Budget High Availability (Failover)
+
+Since an ENI is "elastic," you can detach it from one instance and attach it to another.
+
+* **The Scenario:** If Instance A fails, you can move its ENI to Instance B.
+* **The Result:** The network traffic (sent to the ENI's IP address) is immediately redirected to Instance B without needing to update DNS records.
+
+### 3. Licensing
+
+Some software licenses are tied to a specific MAC address. By using a specific ENI, you can maintain that MAC address even if you terminate and replace the underlying EC2 instance.
+
+---
+
+## 📊 ENI vs. ENA vs. EFA (The "Network" Confusion)
+
+The exam might throw these three similar-sounding acronyms at you. Here is how to keep them straight:
+
+| Feature | **ENI** (Network Interface) | **ENA** (Enhanced Networking) | **EFA** (Fabric Adapter) |
+| --- | --- | --- | --- |
+| **Best For** | Standard networking / Failover | Higher throughput (up to 100Gbps) | High-Performance Computing (HPC) |
+| **Key Attribute** | Basic virtual NIC | Low CPU utilization / Consistent latency | Bypasses the OS kernel for speed |
+| **Think of it as...** | A standard plug | A high-speed fiber cable | A direct "teleport" between nodes |
+
+---
+
+## ⚠️ Exam "Gotchas"
+
+* **AZ Binding:** An ENI is tied to a specific **Availability Zone**. You cannot move an ENI from an instance in `us-east-1a` to an instance in `us-east-1b`.
+* **The Primary ENI:** Every instance is created with a "Primary" ENI (`eth0`). You **cannot** detach the primary ENI from an instance. You can only attach/detach *secondary* ENIs.
+* **Security Groups:** Security Groups are actually attached to the **ENI**, not the EC2 instance itself. This is a subtle but important distinction for troubleshooting.
+
+---
+
+### 🧠 Quick Concept Check
+
+**Scenario:** You have a critical application where the license is tied to a specific IP and MAC address. The underlying hardware of your EC2 instance fails. How do you recover quickly?
+
+**Answer:** Launch a new instance and **attach the existing ENI** from the failed instance to the new one. The new instance will inherit the licensed IP and MAC address.
