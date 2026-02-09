@@ -692,7 +692,7 @@ Here is a streamlined summary of the three IP types you'll encounter on the exam
 
 ---
 
-### ☁️ EC2 IP Address Comparison
+# ☁️ EC2 IP Address Comparison
 
 ### 1. Private IP
 
@@ -741,7 +741,7 @@ A static, public IPv4 address designed for dynamic cloud computing.
 
 ---
 
-## 🏗️ The 3 Types of Placement Groups
+# 🏗️ The 3 Types of Placement Groups
 
 <img width="1208" height="634" alt="image" src="https://github.com/user-attachments/assets/c753921f-043c-4591-8399-1b7f03461d89" />
 
@@ -917,9 +917,9 @@ The exam might throw these three similar-sounding acronyms at you. Here is how t
 
 ---
 
-Look at  **EBS (Elastic Block Store)** as a "Network Drive" (like a virtual USB stick) that you can attach to your EC2 instances. Because it’s network-based, it persists independently of the instance's life cycle.
+# 🛠️ Key Characteristics of EBS
 
-## 🛠️ Key Characteristics of EBS
+Look at  **EBS (Elastic Block Store)** as a "Network Drive" (like a virtual USB stick) that you can attach to your EC2 instances. Because it’s network-based, it persists independently of the instance's life cycle.
 
 * **Locked to an AZ:** An EBS volume is created in a specific Availability Zone (e.g., `us-east-1a`). To move it to a different AZ, you must take a **Snapshot** and restore it in the new zone.
 * **Network Latency:** Since it communicates with the EC2 instance over the network, there is a slight latency compared to "Instance Store" (physical disks).
