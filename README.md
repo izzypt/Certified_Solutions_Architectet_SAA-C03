@@ -914,3 +914,65 @@ The exam might throw these three similar-sounding acronyms at you. Here is how t
 **Scenario:** You have a critical application where the license is tied to a specific IP and MAC address. The underlying hardware of your EC2 instance fails. How do you recover quickly?
 
 **Answer:** Launch a new instance and **attach the existing ENI** from the failed instance to the new one. The new instance will inherit the licensed IP and MAC address.
+
+---
+
+Look at  **EBS (Elastic Block Store)** as a "Network Drive" (like a virtual USB stick) that you can attach to your EC2 instances. Because it’s network-based, it persists independently of the instance's life cycle.
+
+## 🛠️ Key Characteristics of EBS
+
+* **Locked to an AZ:** An EBS volume is created in a specific Availability Zone (e.g., `us-east-1a`). To move it to a different AZ, you must take a **Snapshot** and restore it in the new zone.
+* **Network Latency:** Since it communicates with the EC2 instance over the network, there is a slight latency compared to "Instance Store" (physical disks).
+* **Persistence:** By default, the **Root** volume (where the OS lives) is deleted when the instance is terminated, but you can toggle the "Delete on Termination" attribute to **No** to keep it.
+
+---
+
+## 📊 EBS Volume Types (The "Exam Favorite")
+
+AWS categorizes EBS volumes into two main buckets: **SSD** (for small, fast I/O) and **HDD** (for large, sequential throughput).
+
+| Volume Type | Name | Best For | Max Size / IOPS |
+| --- | --- | --- | --- |
+| **gp3 / gp2** (SSD) | General Purpose | System boots, virtual desktops, dev/test environments. | 16,000 IOPS |
+| **io2 / io1** (SSD) | Provisioned IOPS | High-performance databases (Oracle, SAP HANA). | 64,000+ IOPS |
+| **st1** (HDD) | Throughput Optimized | Big Data, Data Warehousing, Log processing. | 500 MB/s |
+| **sc1** (HDD) | Cold HDD | Archives, infrequent access, lowest cost. | 250 MB/s |
+
+> **Exam Tip:** You cannot use HDD volumes (**st1** or **sc1**) as **Boot Volumes**. Only SSDs can host the OS.
+
+---
+
+## 📸 Snapshots & Data Management
+
+* **Snapshots:** Incremental backups. Only the blocks changed since the last snapshot are saved.
+* **EBS Multi-Attach:** Available only on **io1/io2** volumes. This allows you to attach a single EBS volume to *multiple* instances simultaneously (must be in the same AZ).
+* **Encryption:** When you encrypt an EBS volume, data at rest, data in transit (between instance and volume), and all resulting snapshots are automatically encrypted.
+
+---
+
+## ⚖️ EBS vs. Instance Store
+
+This is a classic exam comparison.
+
+* **EBS:** Durable, network-attached, survives instance stops/restarts. Think of it as **Long-term storage**.
+* **Instance Store:** Physically attached to the host server. It is **Ephemeral** (if the instance stops, the data is **wiped**).
+* **Use Case:** High-speed cache, buffer, or temporary data that is replicated elsewhere.
+
+
+
+---
+
+## 💡 Important "Rule of Thumb"
+
+If the exam question mentions **"High performance"** + **"Relational Database,"** look for **Provisioned IOPS (io2)**.
+If it mentions **"Lowest cost"** + **"Streaming large files,"** look for **Throughput Optimized (st1)**.
+
+---
+
+### 🧠 Quick Check
+
+**Scenario:** You have a database that requires 20,000 IOPS. Which EBS volume type should you choose?
+
+**Answer:** **io2 or io1 (Provisioned IOPS).** General Purpose (gp3) caps out at 16,000 IOPS, so you must use Provisioned IOPS to hit that higher threshold.
+
+Since EBS is about storage, would you like to compare it to **EFS (Elastic File System)** next? EFS is the "Big Brother" that allows hundreds of instances to connect at once.
