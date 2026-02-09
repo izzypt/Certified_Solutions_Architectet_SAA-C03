@@ -917,7 +917,7 @@ The exam might throw these three similar-sounding acronyms at you. Here is how t
 
 ---
 
-# 🛠️ Key Characteristics of EBS
+# 🛠️ EBS Volumes
 
 Look at  **EBS (Elastic Block Store)** as a "Network Drive" (like a virtual USB stick) that you can attach to your EC2 instances. Because it’s network-based, it persists independently of the instance's life cycle.
 
