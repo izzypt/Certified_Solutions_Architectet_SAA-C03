@@ -676,3 +676,155 @@ Basically, it helps run lots of servers cheaply and flexibly without you managin
 - Strategies to allocate Spot Instances:
   - lowestPrice: from the pool with the lowest price ( cost optimization, short workload)
   - diversified: distributed across all pools (great for availability, long workloads) 
+
+# EC2 - Solutions Architect Associate Level
+
+### Private vs Public vs Elastic IP
+
+- Network has 2 types of IP : Ipv4 and Ipv6
+  - IPv4 : 1.92.80.6
+  - IPv6 : 1900:4545:3:200:f8ff:f821:67cf
+
+
+To master the AWS Solutions Architect Associate exam, you need to understand how EC2 addresses work not just in isolation, but how they interact within a VPC.
+
+Here is a streamlined summary of the three IP types you'll encounter on the exam.
+
+---
+
+### ☁️ EC2 IP Address Comparison
+
+### 1. Private IP
+
+Every EC2 instance has at least one Private IP. This is the "internal" address used for communication within the AWS network.
+
+* **Scope:** Reachable only within the VPC or via VPN/Direct Connect.
+* **Persistence:** Remains the same when the instance is stopped and restarted.
+* **Cost:** Free.
+* **Exam Tip:** Use Private IPs for communication between instances in the same VPC to save on data transfer costs and keep traffic off the public internet.
+
+### 2. Public IP
+
+Used for communication between your instance and the internet.
+
+* **Persistence:** **Lost when the instance is stopped.** When you restart the instance, it receives a *new* Public IP from the AWS pool.
+* **Assignment:** You can't "own" these; they are assigned dynamically by AWS.
+* **DNS:** Usually comes with a public DNS name that resolves to the IP.
+
+### 3. Elastic IP (EIP)
+
+A static, public IPv4 address designed for dynamic cloud computing.
+
+* **Persistence:** It is "masked" to your AWS account. You can stop/start the instance, and the IP **stays the same**.
+* **Flexibility:** You can rapidly remapped an EIP to another instance in your account to mask instance failures.
+* **Cost Logic:** AWS actually charges you if the EIP is **not** attached to a running instance (to prevent IP squatting).
+* **Exam Tip:** Generally, for modern architectures, AWS recommends using a **Load Balancer** or **Route 53** alias instead of a fleet of Elastic IPs.
+
+---
+
+## 📊 Quick Reference Table
+
+| Feature | Private IP | Public IP | Elastic IP |
+| --- | --- | --- | --- |
+| **Reachability** | Internal (VPC) | Internet | Internet |
+| **Survives Stop/Start?** | Yes | No | Yes |
+| **Survives Termination?** | No | No | Yes (stays in account) |
+| **Changeable?** | No | Yes (on restart) | No (Static) |
+
+---
+
+## 💡 Exam "Gotchas" to Remember
+
+* **Max Limit:** By default, you are limited to **5 Elastic IPs** per region. If an exam question asks how to scale to 50 instances using individual EIPs, the answer is usually "Use a Load Balancer" instead.
+* **Public IP Requirement:** An instance can only have a Public IP if it is launched in a **Public Subnet** (a subnet with a route to an Internet Gateway).
+* **DNS Behavior:** In a VPC, the Public DNS of an instance resolves to the Public IP from outside the network, but resolves to the Private IP from *inside* the network (to save money and improve speed).
+
+---
+
+## 🏗️ The 3 Types of Placement Groups
+
+<img width="1208" height="634" alt="image" src="https://github.com/user-attachments/assets/c753921f-043c-4591-8399-1b7f03461d89" />
+
+Placement Groups in AWS are a way to **control how EC2 instances are physically placed in AWS data centers** so you can optimize for **performance, latency, or fault tolerance**.
+
+Three types, one-liners each:
+
+* **Cluster** → instances are **packed close together** in the same AZ
+  ✅ ultra-low latency, high throughput (HPC, big data)
+  ❌ higher blast radius if hardware fails
+
+* **Spread** → instances are **kept on separate hardware**
+  ✅ maximum fault isolation (critical small workloads)
+  ❌ limited number of instances
+  ✅ Can span multiple AZs
+  ✅ Each instance is placed on distinct underlying hardware
+  ✅ Designed for maximum fault isolation
+  ❌ Limited to a small number of instances per AZ
+
+* **Partition** → instances are **grouped into partitions**, each on isolated hardware
+  ✅ balance between scale and fault isolation (Kafka, HDFS)
+  ✅ Instances are divided into partitions, and each partition is isolated from the others
+  
+Think of it as telling AWS *“how close or how far apart should my EC2s live?”*
+Quick mental model:
+
+- Cluster → “close together, same AZ”
+
+- Spread → “far apart, even across AZs”
+
+- Partition → “groups isolated, can cross AZs”
+
+### 1. Cluster Placement Groups
+
+All instances are packed into a **single Availability Zone** on the same physical rack.
+
+* **Best for:** Low network latency and high network throughput.
+* **Use Case:** High-Performance Computing (HPC), Big Data (Hadoop/Spark), or applications that need lightning-fast node-to-node communication.
+* **The Risk:** If the rack or hardware fails, all instances fail (Single Point of Failure).
+* **Exam Tip:** If the question mentions "low latency" or "10 Gbps/25 Gbps networking," think **Cluster**.
+
+### 2. Spread Placement Groups
+
+Each instance is placed on **distinct hardware** (different racks, each with its own network and power source).
+
+* **Best for:** Maximizing availability and reducing correlated failures.
+* **Capacity:** Limited to **7 instances per AZ** per placement group.
+* **Use Case:** Critical individual instances that must be kept separate (e.g., a small cluster of critical SQL nodes).
+* **The Risk:** You hit the 7-instance limit quickly.
+* **Exam Tip:** If the goal is "strict isolation" or "minimizing simultaneous failure," think **Spread**.
+
+### 3. Partition Placement Groups
+
+Instances are divided into logical segments called "partitions." Each partition has its own set of racks.
+
+* **How it works:** AWS ensures that no two partitions share the same racks.
+* **Capacity:** Can scale to hundreds of instances.
+* **Use Case:** Large distributed workloads like HDFS, Cassandra, or Kafka.
+* **The Risk:** One partition failure affects all instances *within* that partition, but other partitions remain safe.
+* **Exam Tip:** If you see "topology-aware" workloads or large-scale distributed databases, think **Partition**.
+
+---
+
+## 📊 Summary Table
+
+| Strategy | Latency | Reliability | Max Instances | Best For |
+| --- | --- | --- | --- | --- |
+| **Cluster** | Ultra-Low | Lower (Single Rack) | No specific limit | HPC / Video Encoding |
+| **Spread** | Normal | Maximum | 7 per AZ | Critical redundancy |
+| **Partition** | Low | High (Isolated) | Hundreds | Big Data / Cassandra |
+
+---
+
+## 💡 Important "Rule of Thumb" for the Exam
+
+* **Moving Instances:** You cannot move an *existing* instance into a placement group. You must create an Image (AMI) of the instance and then launch a new instance into the group.
+* **Instance Types:** For Cluster placement groups, AWS recommends using the **same instance type** for all instances in the group to ensure the best performance.
+* **Capacity Errors:** If you get an "Insufficient Capacity" error when launching a Cluster placement group, it means the rack is full. You’ll have to stop/start the instances or try a different AZ.
+
+---
+
+### 🧠 Quick Check
+
+**Scenario:** You are designing a system for a genomic research firm that needs to process massive datasets across 50 nodes with the lowest possible latency between them. Which placement group do you choose?
+
+**Answer:** **Cluster Placement Group.** Even though there are many nodes, the "lowest possible latency" requirement is the "Cluster" keyword.
