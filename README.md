@@ -1098,7 +1098,7 @@ You can launch EC2 instances from:
 
 ---
 
-## 🏗️ Amazon EFS (Elastic File System)
+# 🏗️ Amazon EFS (Elastic File System)
 
 While EBS is like a USB stick for a single computer, **Amazon EFS (Elastic File System)** is like a giant, shared network folder (NAS) that hundreds of EC2 instances can plug into at the same time.
 
@@ -1165,3 +1165,90 @@ This is the "Holy Trinity" of EC2 storage questions on the SAA exam:
 **Scenario:** You have a fleet of 10 web servers that all need to access a shared pool of images and CSS files. The storage must be highly available across three Availability Zones. Which storage should you use?
 
 **Answer:** **Amazon EFS.** Because it supports multiple concurrent connections across different AZs, it is the perfect fit for a shared web-server root.
+
+
+
+---
+
+# 🏗️ **ELB (Elastic Load Balancer)**
+
+In the AWS ecosystem, the **ELB (Elastic Load Balancer)** is the "traffic cop" that sits in front of your EC2 instances. It distributes incoming application traffic across multiple targets (instances, containers, or IP addresses) in multiple Availability Zones.
+
+
+* **High Availability:** It spreads load across different AZs.
+* **Health Checks:** It constantly "pings" your instances. If one fails, the ELB stops sending traffic to it and reroutes to healthy ones.
+* **Separation of Concerns:** You provide one single DNS name to your users, and the ELB handles the complex routing behind the scenes.
+* **SSL Termination:** You can manage your SSL certificates on the Load Balancer so your EC2 instances don't have to spend CPU power on encryption/decryption.
+
+---
+
+## 📊 The 3 Main Types of Load Balancers
+
+The SAA-C03 exam will often describe a scenario and ask you to pick the right one.
+
+### 1. Application Load Balancer (ALB) — *Layer 7*
+
+* **Best For:** HTTP and HTTPS traffic.
+* **Key Feature:** **Intelligent Routing.** It can route based on:
+* **Path:** `example.com/users` vs `example.com/orders`.
+* **Hostname:** `api.example.com` vs `mobile.example.com`.
+* **Query Strings/Headers.**
+
+
+* **Targets:** EC2, Lambda, Containers (ECS), or even IP addresses.
+
+### 2. Network Load Balancer (NLB) — *Layer 4*
+
+* **Best For:** Ultra-high performance, TCP/UDP/TLS traffic.
+* **Key Feature:** **Speed and Static IPs.**
+* Can handle **millions of requests per second** with ultra-low latency.
+* It provides a **Static IP** (or Elastic IP) per AZ.
+
+
+* **Use Case:** Gaming servers, VolP, or applications requiring extreme performance.
+
+### 3. Gateway Load Balancer (GWLB) — *Layer 3*
+
+* **Best For:** Deploying and scaling 3rd-party "Virtual Appliances" (Firewalls, Intrusion Detection Systems).
+* **How it works:** It acts as a single entry/exit point for all traffic, then "sandwiches" your traffic through security appliances.
+
+---
+
+## ⚡ Essential ELB Concepts
+
+* **Sticky Sessions (Session Affinity):** Ensures a user is always sent to the *same* specific instance for the duration of their session. (Used if the instance stores data locally in RAM).
+* **Cross-Zone Load Balancing:** * **Enabled:** Load is distributed evenly across all instances in all registered AZs.
+* **Disabled:** Traffic is distributed evenly across AZs first, which can cause imbalances if one AZ has fewer instances than another.
+
+
+* **Deregistration Delay (Connection Draining):** Gives the ELB time to complete "in-flight" requests before an instance is taken out of service (e.g., during an Auto Scaling event).
+
+---
+
+## ⚖️ Comparison Table
+
+| Feature | ALB (Layer 7) | NLB (Layer 4) | GWLB (Layer 3) |
+| --- | --- | --- | --- |
+| **Protocols** | HTTP, HTTPS, gRPC | TCP, UDP, TLS | IP (All) |
+| **Routing Logic** | Path, Host, Headers | IP, Port | Network Gateway |
+| **Static IP?** | No (DNS only) | **Yes** | No |
+| **Latency** | Low | **Ultra-Low** | Low |
+
+---
+
+## 💡 Exam "Gotchas"
+
+* **403 Forbidden Error:** If you see this, check the **WAF (Web Application Firewall)** if it's attached to your ALB.
+* **502 Bad Gateway:** Usually means the target (EC2) is closed or the application crashed, but the ELB itself is fine.
+* **504 Gateway Timeout:** The application took too long to respond. This is usually a database or app-tier bottleneck.
+* **Internal vs. External:** You can have an **Internet-facing** ELB (public IP) or an **Internal** ELB (private IP) used to balance traffic between your Web tier and your App tier.
+
+---
+
+### 🧠 Quick Check
+
+**Scenario:** You need a load balancer that can handle millions of TCP requests per second while maintaining a single static IP address for your whitelist-heavy corporate clients. Which do you choose?
+
+**Answer:** **Network Load Balancer (NLB).** The keywords "Static IP" and "TCP" are the dead giveaways for NLB.
+
+Now let's explore **Auto Scaling Groups (ASG)**. They are the "partners in crime" for ELB, as they automatically add or remove the instances the ELB talks to.
