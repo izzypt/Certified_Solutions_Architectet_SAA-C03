@@ -6,7 +6,7 @@
 - Provide us with servers and services that we can use on <i>**demand**</i> and <u>**scale easily**</u>
 
 
-# 2 - What services we are going to learn :
+# 2 - Covered Services :
 
 - Amazon EC2
 - Amazon ECR
@@ -976,3 +976,107 @@ If it mentions **"Lowest cost"** + **"Streaming large files,"** look for **Throu
 **Answer:** **io2 or io1 (Provisioned IOPS).** General Purpose (gp3) caps out at 16,000 IOPS, so you must use Provisioned IOPS to hit that higher threshold.
 
 Since EBS is about storage, would you like to compare it to **EFS (Elastic File System)** next? EFS is the "Big Brother" that allows hundreds of instances to connect at once.
+
+
+
+---
+
+# 🏗️ EBS Snapshots
+
+**EBS Snapshots** is a snapshot (backup) of your EBS volume at a pont in time. 
+
+Is is not necessary to detach volume to do snapshot, but is recommended.
+
+It is the primary way to back up your data. 
+
+On the exam, focus on the mechanics of how they are stored and how to move them.
+
+
+
+* **Incremental Backups:** Only the blocks that have changed since the last snapshot are saved. This makes them cost-effective and fast.
+* **Storage Location:** While EBS volumes exist in a specific Availability Zone, snapshots are stored in **Amazon S3**. You don't "see" them in your S3 buckets, but they benefit from S3's 99.999999999% durability.
+* **Point-in-Time:** They capture the state of the volume at the exact moment the snapshot starts.
+
+---
+
+## 🚀 Key Features for the Exam
+
+### 1. Cross-Region & Cross-AZ Copying
+
+This is the "cheat code" for migration.
+
+* To move a volume to a **new AZ**: Snapshot the volume → Create a new volume from that snapshot in the target AZ.
+* To move a volume to a **new Region**: Snapshot the volume → Copy the snapshot to the new Region → Create a volume from the copy.
+
+### 2. EBS Fast Snapshot Restore (FSR)
+
+Normally, when you create a volume from a snapshot, the data is "lazy-loaded" (pulled from S3 as you access it), which causes a performance lag. **FSR** eliminates this latency for immediate full performance.
+
+### 3. Amazon Data Lifecycle Manager (DLM)
+
+A tool used to **automate** the creation and deletion of snapshots based on a schedule (e.g., "Take a snapshot every 24 hours and keep them for 7 days").
+
+---
+
+## 🔒 Security and Encryption
+
+* **Snapshotting Encrypted Volumes:** If the EBS volume is encrypted, the resulting snapshot is **automatically encrypted**.
+* **Sharing Snapshots:** You can share snapshots with other AWS accounts or make them public (be careful!). However, you cannot share an encrypted snapshot unless you also share the **KMS Key** used to encrypt it.
+
+---
+
+## 📊 Summary Comparison
+
+| Feature | EBS Volume | EBS Snapshot |
+| --- | --- | --- |
+| **Primary Use** | Active data/OS | Backup / Migration |
+| **Location** | Availability Zone (AZ) | S3 (Regional) |
+| **Billing** | Provisioned size (per GB/month) | Actual data stored (per GB/month) |
+
+---
+
+### 💡 Exam Tip: The "Consistent" Backup
+
+For the most reliable backup of a **Root Volume**, AWS recommends **stopping the instance** before taking the snapshot. This ensures all "data in flight" (cached in RAM) is flushed to the disk so the backup isn't corrupted.
+
+
+---
+
+## ❄️ What is Snapshot Archive?
+
+While Standard EBS Snapshots are great for daily backups, **EBS Snapshot Archive** is a specialized storage tier designed for long-term retention of data you rarely need to access.
+
+It is a low-cost storage tier (similar to S3 Glacier) specifically for EBS snapshots. It is intended for snapshots that you must keep for **months or years** for regulatory or compliance reasons, but don't expect to use for regular restores.
+
+### 🔑 Key Characteristics
+
+* **Full Snapshots (Not Incremental):** Unlike standard snapshots, archived snapshots are **always full copies** of the volume. This is a critical distinction for the exam.
+* **Significant Cost Savings:** It can reduce storage costs by up to **75%** compared to the Standard tier.
+* **Retrieval Time:** This is not instant. It can take anywhere from **24 to 72 hours** to restore a snapshot from the archive back to the standard tier before you can use it.
+* **Minimum Retention:** There is a **90-day minimum** storage charge. If you delete it sooner, you still pay for the full 90 days.
+
+---
+
+## 🔄 Standard vs. Archive Comparison
+
+| Feature | EBS Snapshot (Standard) | EBS Snapshot Archive |
+| --- | --- | --- |
+| **Backup Type** | Incremental | **Full** |
+| **Storage Cost** | Higher (~$0.05/GB) | **Very Low** (~$0.0125/GB) |
+| **Retrieval Speed** | Instant | **24 – 72 Hours** |
+| **Use Case** | Frequent backups, fast recovery | Compliance, long-term legal hold |
+| **Direct Use** | Can create volumes instantly | **Must be restored** to Standard first |
+
+---
+
+## ⚠️ Important Exam Constraints
+
+1. **No Direct Creation:** You cannot create an EBS volume directly from an archived snapshot. You must first "Restore" (pull) it back to the Standard tier.
+2. **Owner Only:** You can only archive snapshots that you **own**. You cannot archive a snapshot shared with you by another account (unless you copy it first).
+3. **Automation:** You can automate the movement of snapshots to the Archive tier using **Amazon Data Lifecycle Manager (DLM)**.
+
+---
+
+### 💡 Pro Tip
+
+If you have a snapshot that is only a few gigabytes of incremental changes, moving it to Archive might actually **increase** your cost because the Archive tier converts it into a **full** snapshot (e.g., a 100GB volume snapshot). Only archive snapshots where the cost of the full storage at the lower rate is cheaper than the incremental storage at the higher rate!
