@@ -1080,3 +1080,16 @@ It is a low-cost storage tier (similar to S3 Glacier) specifically for EBS snaps
 ### 💡 Pro Tip
 
 If you have a snapshot that is only a few gigabytes of incremental changes, moving it to Archive might actually **increase** your cost because the Archive tier converts it into a **full** snapshot (e.g., a 100GB volume snapshot). Only archive snapshots where the cost of the full storage at the lower rate is cheaper than the incremental storage at the higher rate!
+
+
+# AMI Overview
+
+- Amazon Machine Image, represents a customization of an EC2 instance (like a docker image).
+  - You add your own software, configuration,OS, monitoring...
+  - Fast boot / configuration time because all your software is pre packaged 
+
+AMI are built for specific region (and can be copied across regions)
+You can launch EC2 instances from:
+- Public AMI: AWS provided
+- Your own AMI: you made and maintain them yourself
+- An AWS Marketplace AMI: an AMI someone else made (and potentially sells)
