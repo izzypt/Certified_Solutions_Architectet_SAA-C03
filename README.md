@@ -1093,3 +1093,75 @@ You can launch EC2 instances from:
 - Public AMI: AWS provided
 - Your own AMI: you made and maintain them yourself
 - An AWS Marketplace AMI: an AMI someone else made (and potentially sells)
+
+
+
+---
+
+## 🏗️ Amazon EFS (Elastic File System)
+
+While EBS is like a USB stick for a single computer, **Amazon EFS (Elastic File System)** is like a giant, shared network folder (NAS) that hundreds of EC2 instances can plug into at the same time.
+
+* **Shared Storage:** Can be mounted by hundreds of EC2 instances simultaneously.
+* **Regional Service:** Unlike EBS (which is locked to an AZ), EFS is a **Regional service**. Data is stored across multiple Availability Zones for high durability.
+* **Protocol:** Uses the **NFSv4** protocol.
+* **Compatibility:** Works with **Linux-based** AMIs only (it does not support Windows).
+* **Auto-Scaling:** There is no need to "provision" size. It grows and shrinks automatically as you add or remove files. You only pay for what you use.
+
+---
+
+## 📊 EFS Storage Classes (Cost Optimization)
+
+The exam loves to ask how to save money on EFS. Use **Lifecycle Management** to move files between these tiers:
+
+| Tier | Best For | Performance/Cost |
+| --- | --- | --- |
+| **EFS Standard** | Frequently accessed data. | High performance, higher cost. |
+| **EFS Infrequent Access (IA)** | Files not accessed every day. | **92% cheaper** storage; has a retrieval fee. |
+| **EFS Archive** | Data accessed a few times a year. | Lowest cost; highest retrieval fee. |
+
+---
+
+## ⚡ Performance & Throughput Modes
+
+You must choose the right "engine" for your workload:
+
+1. **Performance Modes:**
+* **General Purpose (Default):** Best for latency-sensitive use cases (web servers, CMS, dev tools).
+* **Max I/O:** Best for massive parallel processing (Big Data, media processing). Higher latency but higher aggregate throughput.
+
+
+2. **Throughput Modes:**
+* **Elastic (Recommended):** Scales throughput automatically based on workload.
+* **Provisioned:** You specify exactly how many MiB/s you need (good if you have low storage but high throughput needs).
+
+
+
+---
+
+## ⚖️ EFS vs. EBS vs. Instance Store
+
+This is the "Holy Trinity" of EC2 storage questions on the SAA exam:
+
+| Feature | Instance Store | EBS | EFS |
+| --- | --- | --- | --- |
+| **Durability** | Ephemeral (Lost on stop) | Highly Durable | Multi-AZ (Max Durability) |
+| **Scope** | Single Physical Host | Availability Zone | Region |
+| **Shared?** | No | Only with Multi-Attach (io1/io2) | **Yes (Hundreds of nodes)** |
+| **Use Case** | Cache / Temp Data | Databases / Boot Volumes | Content Management / Home Directories |
+
+---
+
+## 💡 Exam "Gotchas"
+
+* **Security:** EFS uses **Security Groups** to control network access (who can mount the drive) and **POSIX permissions** to control file-level access.
+* **On-Premise:** You can access EFS from your on-premise servers using AWS Direct Connect or a VPN.
+* **Replication:** **EFS Replication** allows you to replicate your file system to another AWS Region for Disaster Recovery (DR).
+
+---
+
+### 🧠 Quick Check
+
+**Scenario:** You have a fleet of 10 web servers that all need to access a shared pool of images and CSS files. The storage must be highly available across three Availability Zones. Which storage should you use?
+
+**Answer:** **Amazon EFS.** Because it supports multiple concurrent connections across different AZs, it is the perfect fit for a shared web-server root.
