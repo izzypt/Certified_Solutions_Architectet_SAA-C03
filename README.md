@@ -26,6 +26,28 @@ the internet from initiating a connection to the instances?
 
 ---
 
+```
+A Solutions Architect needs to restrict traffic to an EC2 instance.
+The requirement is to allow inbound HTTPS traffic from a specific IP range and
+ensure that the response traffic is automatically allowed.
+Which tool should be used?
+```
+
+A.
+Security Group
+
+
+B.
+AWS WAF
+
+
+C.
+Network ACL (NACL)
+
+
+D.
+Route Table
+
 
 # 1 - What's AWS
 
