@@ -1,5 +1,32 @@
  # Certified_Solutions_Architectet_SAA-C03
 
+# QUIZ - KNOWLEDGE TEST - BEFORE READING DOCUMENTATION :
+
+```
+An application running on EC2 instances in a private subnet needs to download software updates from the internet.
+
+Which component should be placed in a public subnet to allow this while preventing
+the internet from initiating a connection to the instances?
+````
+
+> A.
+ NAT Gateway
+
+
+> B.
+ VPC Endpoint
+
+
+> C.
+ Egress-Only Internet Gateway
+
+
+> D.
+ Internet Gateway
+
+---
+
+
 # 1 - What's AWS
 
 - AWS - Cloud Provider
