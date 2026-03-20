@@ -33,21 +33,18 @@ ensure that the response traffic is automatically allowed.
 Which tool should be used?
 ```
 
-A.
-Security Group
+> A. Security Group
 
 
-B.
-AWS WAF
+> B. AWS WAF
 
 
-C.
-Network ACL (NACL)
+> C. Network ACL (NACL)
 
 
-D.
-Route Table
+> D. Route Table
 
+---
 
 # 1 - What's AWS
 
