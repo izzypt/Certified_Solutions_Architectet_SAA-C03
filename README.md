@@ -1320,3 +1320,4 @@ Now let's explore **Auto Scaling Groups (ASG)**. They are the "partners in crime
  - EC2 instances (can be managed by auto scaling group) - HTTP
  - ECS tasks (managed by ECS itself) - HTTP
  - Lambda functions - HTTP request is tanslated into a JSON event
+ - IP addresses - must be private IP addresses 
