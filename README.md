@@ -1220,6 +1220,8 @@ This is the "Holy Trinity" of EC2 storage questions on the SAA exam:
 
 In the AWS ecosystem, the **ELB (Elastic Load Balancer)** is the "traffic cop" that sits in front of your EC2 instances. It distributes incoming application traffic across multiple targets (instances, containers, or IP addresses) in multiple Availability Zones.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/108be030-aec1-492f-a045-68f0bce5d4b4" />
+
 
 * **High Availability:** It spreads load across different AZs.
 * **Health Checks:** It constantly "pings" your instances. If one fails, the ELB stops sending traffic to it and reroutes to healthy ones.
@@ -1298,3 +1300,23 @@ The SAA-C03 exam will often describe a scenario and ask you to pick the right on
 **Answer:** **Network Load Balancer (NLB).** The keywords "Static IP" and "TCP" are the dead giveaways for NLB.
 
 Now let's explore **Auto Scaling Groups (ASG)**. They are the "partners in crime" for ELB, as they automatically add or remove the instances the ELB talks to.
+
+
+# 🏗️ **ALB (Application Load Balancer - http, https, WebSocket)**
+
+- It's a Layer 7 (http)
+- Load balancing to multiple HTTP applications accross machines (ex: target groups)
+- Load balancing to multiple applications on the same machine (ex: container)
+- Supportfot HTTP/2 and WebSocket
+- Support redirects (from HTTP to HTTPS for example)
+- Routing tables to different target groups:
+  - Routing based on path in URL (example.com/users & example.com/posts)
+  - Routing based on hostname in URL (one.example.com & other.example.com)
+  - Routing based on Query String, Headers (example.com/users?id=123&order=false)
+ 
+ ALB is a great fit for micro services & container-based application (example: Docker & Amazon ECS) because it has a port mapping feature to redirect to a dynamic port in ECS.
+
+ ALB target groups can be :
+ - EC2 instances (can be managed by auto scaling group) - HTTP
+ - ECS tasks (managed by ECS itself) - HTTP
+ - Lambda functions - HTTP request is tanslated into a JSON event
